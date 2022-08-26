@@ -1,0 +1,7 @@
+build:remote --remote_executor=grpcs://remotebuildexecution.googleapis.com
+build:remote --remote_instance_name=projects/eytankidron-vpcsc-prod/instances/default_instance
+build:remote --google_credentials=/Users/tjgq/creds.json
+build:remote --incompatible_enable_cc_toolchain_resolution
+build:remote --extra_toolchains=@rbe_ubuntu1804_java11//config:cc-toolchain
+build:remote --host_platform=//:rbe_ubuntu1804_java11_platform
+build:remote --platforms=//:rbe_ubuntu1804_java11_platform

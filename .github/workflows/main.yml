@@ -1,0 +1,22 @@
+name: GitHub Actions CI - Build Artifacts
+on: [pull_request]
+jobs:
+  pr-build:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0.4.0'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: projects/28120060604/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: my-service-account@eytankidron-vpcsc-prod.iam.gserviceaccount.com
+          create_credentials_file: true
+      - name: Verify that all dependencies are set up correctly
+        run: |
+          tools/bazel run --config=remote --google_credentials=${{ steps.auth.outputs.credentials_file_path }} //:hello
